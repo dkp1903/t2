@@ -1,0 +1,27 @@
+[
+    {
+      "event": "Track",
+      "visitor": "37d272f6-877b-47c6-98e5-5156f32a",
+      "metadata": "{}",
+      "created_at": "9/15/2024, 5:08:56 PM"
+    },
+    {
+      "event": "Page",
+      "visitor": "e7ef515a-7a5b-4949-9f28-8ae34c",
+      "metadata": "{\"page_url\": \"https://withsurface.com/page-1\"}",
+      "created_at": "9/15/2024, 5:09:35 PM"
+    },
+    {
+      "event": "Identity",
+      "visitor": "42d467c8-3bd1-4519-9ae6-bfb00adc01c",
+      "metadata": "{\"user_id\": \"42d467c8-3bd1-4519-9ae6-bfb00adc01c\"}",
+      "created_at": "9/15/2024, 5:12:19 PM"
+    },
+    {
+      "event": "Click",
+      "visitor": "aa731c78-c4e0-4e4f-b515-6525a76",
+      "metadata": "{\"element_id\": \"button-element\"}",
+      "created_at": "9/15/2024, 5:17:35 PM"
+    }
+  ]
+  
