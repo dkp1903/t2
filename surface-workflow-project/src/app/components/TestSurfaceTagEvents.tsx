@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 interface EventData {
-  event: string;
-  visitor: string;
+  eventName: string;
+  visitorId: string;
   metadata: string;
   created_at: string;
 }
@@ -13,7 +13,7 @@ const TestSurfaceTagEvents = () => {
 
   // Fetch the mock JSON data
   const fetchEvents = async () => {
-    const response = await fetch('/mock-events.json');
+    const response = await fetch('/api/events/fetch');
     const data = await response.json();
     setEvents(data);
   };
@@ -66,8 +66,8 @@ const TestSurfaceTagEvents = () => {
             <tbody>
               {events.map((event, index) => (
                 <tr key={index} className="border-t">
-                  <td className="p-2">{event.event}</td>
-                  <td className="p-2">{event.visitor}</td>
+                  <td className="p-2">{event.eventName}</td>
+                  <td className="p-2">{event.visitorId}</td>
                   <td className="p-2">{event.metadata}</td>
                   <td className="p-2">{event.created_at}</td>
                 </tr>

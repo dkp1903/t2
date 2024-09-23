@@ -1,15 +1,16 @@
 (function() {
-    const apiUrl = 'https://backend/track';
+    const apiUrl = 'https://3000-dkp1903-t2-da7401yta8s.ws-us116.gitpod.io/api/events';
     
     // Utility function to send events
     function sendEvent(eventName, metadata = {}) {
         const visitorId = getVisitorId();
         const payload = {
-            event: eventName,
+            eventName: eventName,
             visitorId: visitorId,
             timestamp: new Date().toISOString(),
             metadata: metadata
         };
+        console.log('Sending event : ', payload);
         navigator.sendBeacon(apiUrl, JSON.stringify(payload));
     }
 
@@ -25,6 +26,7 @@
 
     // Track script initialization
     function trackInitialization() {
+        console.log("initating scripting")
         sendEvent('script_initialized', { script: 'surface_analytics.js' });
     }
 
@@ -51,12 +53,14 @@
                 elementTag: element.tagName,
                 elementClasses: element.className
             };
+            console.log("Elemeent : ", element);
             sendEvent('element_clicked', metadata);
         });
     }
 
     // Initialize tracking
     function initializeAnalytics() {
+        console.log("Tracking started")
         trackInitialization();
         trackPageView();
         trackEmailEntered();
