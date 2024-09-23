@@ -1,34 +1,57 @@
-## Running the app
+## Introduction
 
-Run `./start.sh`.
+This application captures events from a simple form and posts them to a backend. These events are then stored in a PostgreSQL database using Prisma.
 
-Run `index.html` and get events.
+## Running the Application
 
-## Backend approach
+To run the application, paste the env variable, and execute the following command:
 
-### main
-
-NextJS API Serverless => `/api/events/fetch` returns list of events - called by UI, and `POST api/events` is used by the script to write to the Postgres DB via Prisma
-
-### develop
-
-Running a separate websocket server. Can't use it directly inside NextJS APIs since serverless APIs are stateless, and the websocket won't be able to stay on
-
+```bash
+./start.sh
 ```
+
+If that doesn't work,
+
+```bash
+cd surface-workflow-project
+
+./start-database.sh
+
+pnpm db:push
+pnpm dev
+```
+
+After the application starts, open `index.html` to begin capturing events.
+
+## Backend Approach
+
+### Main
+
+The application uses a Next.js serverless API with the following endpoints:
+
+- `GET /api/events/fetch`: Returns a list of events, called by the UI.
+- `POST /api/events`: Used by the script to write events to the PostgreSQL database via Prisma.
+
+### Development
+
+In development, a separate WebSocket server is run. Due to the stateless nature of serverless APIs, WebSocket connections cannot be maintained directly within Next.js APIs.
+
+To switch to the development branch, use the following command:
+
+```bash
 git checkout develop
 ```
 
-Backend implementation optimizations that have been done
+### Backend Implementation Optimizations
 
-1. Generic structure of the models to hold any type of event
+Several optimizations have been implemented in the backend:
 
-2. Separate endpoints and components to ensure concern separation, yet at the same time, allow for easier traceability for bugs
+1. **Generic Model Structure**: The models are designed to handle various types of events.
+2. **Separation of Concerns**: Distinct endpoints and components promote better organization and easier bug traceability.
 
-3. 
+### Future Optimizations
 
-Some other implementation optimizations that could be done : 
+Further optimizations that could be considered include:
 
-1. Use a messaging queue like Kafka to queue events for processing
-
-2. 
-
+1. **Message Queue Integration**: Implementing a messaging queue, such as Kafka, to queue events for processing.
+2. **Redux Store for complex UI state scheduling** : If the UI state, like number of events captured, connection status etc need to remain in sync across the application
