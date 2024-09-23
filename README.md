@@ -23,6 +23,28 @@ pnpm dev
 
 After the application starts, open `index.html` to begin capturing events.
 
+## Structure
+```
+client
+    | - Main
+        | - Sidebar
+        | - InstallSurfaceTagComponent
+        | - TestSurfaceTagEventsComponent
+
+server
+    | - api
+        | - events
+            | - POST events
+                | - fetch events
+
+    | - prisma
+        | - schema
+    | - env/db # Describes db configuration
+
+index.html ## Sample index.html page
+script.js ## Analytics script to capture events and write them to the database
+```
+
 ## Backend Approach
 
 ### Main
