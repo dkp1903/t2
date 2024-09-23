@@ -11,23 +11,15 @@ const TestSurfaceTagEvents = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [events, setEvents] = useState<EventData[]>([]);
 
-  // Fetch the mock JSON data
-  const fetchEvents = async () => {
-    const response = await fetch('/api/events/fetch');
-    const data = await response.json();
-    setEvents(data);
-  };
-
   useEffect(() => {
-    // Fetch the data on mount
-    fetchEvents();
+    const socket = new WebSocket('wss://3000-dkp1903-t2-da7401yta8s.ws-us116.gitpod.io/api/events'); // Your Gitpod WebSocket URL
 
-    // Set an interval to simulate real-time data update
-    const interval = setInterval(() => {
-      fetchEvents(); // Refetch data every 5 seconds (or however frequently)
-    }, 5000);
+    socket.onmessage = (event) => {
+      const newEvent = JSON.parse(event.data);
+      setEvents((prevEvents) => [newEvent, ...prevEvents]);
+    };
 
-    return () => clearInterval(interval);
+    return () => socket.close();
   }, []);
 
   return (
@@ -68,7 +60,7 @@ const TestSurfaceTagEvents = () => {
                 <tr key={index} className="border-t">
                   <td className="p-2">{event.eventName}</td>
                   <td className="p-2">{event.visitorId}</td>
-                  <td className="p-2">{event.metadata}</td>
+                  <td className="p-2">{JSON.stringify(event.metadata)}</td>
                   <td className="p-2">{event.timestamp}</td>
                 </tr>
               ))}

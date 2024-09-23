@@ -1,19 +1,16 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient(); // Your format for Prisma client
 
 export async function GET() {
-  console.log("event get")
   try {
     const events = await prisma.event.findMany({
-      orderBy: {
-        timestamp: 'desc',
-      },
+      orderBy: { timestamp: 'desc' },
     });
-
-    return NextResponse.json(events, { status: 200 });
+    return NextResponse.json(events);
   } catch (error) {
-    return NextResponse.json({ error: 'Unable to fetch events' }, { status: 500 });
+    console.error('Error fetching events:', error);
+    return NextResponse.json({ message: 'Failed to fetch events' }, { status: 500 });
   }
 }

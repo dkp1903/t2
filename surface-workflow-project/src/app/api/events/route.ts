@@ -1,35 +1,54 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import WebSocket from 'ws';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient(); // Your format for Prisma client
+let wsServer: WebSocket.Server | null = null;
+const clients: WebSocket[] = [];
 
-export async function POST(request: Request) {
+// POST handler for event ingestion
+export async function POST(req: NextRequest) {
   try {
-    console.log("Event post");
-    const body = await request.json();
-    const { eventName, visitorId, metadata } = body;
+    const { eventName, visitorId, metadata } = await req.json();
 
-    console.log("Received event : ", body);
-    console.log("Creating new event : " , typeof metadata)
-    const parsedMetadata = JSON.stringify(metadata);
-    
+    // Create event in the database
     const newEvent = await prisma.event.create({
       data: {
         eventName,
         visitorId,
-        metadata: parsedMetadata,
+        metadata,
       },
     });
-    console.log('Event creation successful');
-    const response = NextResponse.json({ success: true, event: newEvent }, { status: 201 });
-    
-    // Add CORS headers
-    response.headers.set('Access-Control-Allow-Origin', '*');
-    response.headers.set('Access-Control-Allow-Methods', 'POST');
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type');
-    
-    return response;
+
+    // Broadcast to WebSocket clients
+    clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify(newEvent));
+      }
+    });
+
+    return NextResponse.json(newEvent, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: 'Unable to store event' }, { status: 500 });
+    console.error('Error creating event:', error);
+    return NextResponse.json({ message: 'Failed to create event' }, { status: 500 });
+  }
+}
+
+// Initialize WebSocket server
+export function initWebSocket(server: any) {
+  if (!wsServer) {
+    wsServer = new WebSocket.Server({ server });
+
+    wsServer.on('connection', (ws: WebSocket) => {
+      clients.push(ws);
+      console.log('New WebSocket connection established.');
+
+      ws.on('close', () => {
+        const index = clients.indexOf(ws);
+        if (index !== -1) {
+          clients.splice(index, 1);
+        }
+      });
+    });
   }
 }
