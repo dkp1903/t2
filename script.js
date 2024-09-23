@@ -1,5 +1,5 @@
 (function() {
-    const apiUrl = 'https://3000-dkp1903-t2-da7401yta8s.ws-us116.gitpod.io/api/events';
+    const apiUrl = window.API_URL || 'https://3000-dkp1903-t2-da7401yta8s.ws-us116.gitpod.io/api/events';
     
     // Utility function to send events
     function sendEvent(eventName, metadata = {}) {

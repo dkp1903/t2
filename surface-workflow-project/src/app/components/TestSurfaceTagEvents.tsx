@@ -4,7 +4,7 @@ interface EventData {
   eventName: string;
   visitorId: string;
   metadata: string;
-  created_at: string;
+  timestamp: string;
 }
 
 const TestSurfaceTagEvents = () => {
@@ -69,7 +69,7 @@ const TestSurfaceTagEvents = () => {
                   <td className="p-2">{event.eventName}</td>
                   <td className="p-2">{event.visitorId}</td>
                   <td className="p-2">{event.metadata}</td>
-                  <td className="p-2">{event.created_at}</td>
+                  <td className="p-2">{event.timestamp}</td>
                 </tr>
               ))}
             </tbody>
