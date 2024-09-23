@@ -10,14 +10,14 @@ export async function POST(request: Request) {
     const { eventName, visitorId, metadata } = body;
 
     console.log("Received event : ", body);
-    console.log("Creating new event")
-    const parsedMetadata = typeof metadata === 'string' ? JSON.parse(metadata) : metadata;
-
+    console.log("Creating new event : " , typeof metadata)
+    const parsedMetadata = JSON.stringify(metadata);
+    
     const newEvent = await prisma.event.create({
       data: {
         eventName,
         visitorId,
-        metadata: 'parsedMetadata',
+        metadata: parsedMetadata,
       },
     });
     console.log('Event creation successful');
