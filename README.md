@@ -45,6 +45,25 @@ index.html ## Sample index.html page
 script.js ## Analytics script to capture events and write them to the database
 ```
 
+## UI Approach
+
+- Domain Context Segregation - Components have been created and segregated based on domain use case - Checking for Surface Tag presence, and Tracking event flow. This ensures
+    - Readability
+    - Alignment with Behavior Driven Development, as the user flows are mimicked
+    - Modularity
+
+- `async, await` based asynchronous approach has been used to fetch event data. The API call reruns after every 5 seconds to fetch realtime data
+
+- Default server components for the domain components, and a Use Client format for the Page component to allow us to use `useEffect`
+
+- Redux or usecontext can later be applied if state needs to be shared across components. It wasn't a hard ask here
+
+## Script approach
+
+Custom script that tracks events on buttons, script load and submissions.
+
+Added customizations for default buttons like Follow, Login, Submit, so that they can be bucketed and filtered
+
 ## Backend Approach
 
 ### Main

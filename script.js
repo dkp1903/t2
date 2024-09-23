@@ -44,19 +44,39 @@
         });
     }
 
-    // Track click event
-    function trackClickEvent() {
-        document.addEventListener('click', (e) => {
-            const element = e.target;
-            const metadata = {
-                elementId: element.id || null,
-                elementTag: element.tagName,
-                elementClasses: element.className
-            };
-            console.log("Elemeent : ", element);
-            sendEvent('element_clicked', metadata);
-        });
-    }
+function trackClickEvent() {
+    document.addEventListener('click', (e) => {
+        const element = e.target;
+        if (!element.id) {
+            element.id = 'auto-id-' + Math.random().toString(36).substring(2, 15);
+        }
+
+        // Capture button text for custom checks
+        let eventName = 'element_clicked';
+        if (element.tagName === 'BUTTON' || element.tagName === 'A') {
+            const buttonText = element.textContent.trim().toLowerCase();
+
+            if (buttonText.includes('log in')) {
+                eventName = 'log_in_button_clicked';
+            } else if (buttonText.includes('follow us')) {
+                eventName = 'follow_us_button_clicked';
+            } else if (buttonText.includes('submit')) {
+                eventName = 'submit_button_clicked';
+            }
+        }
+
+        const metadata = {
+            elementId: element.id,
+            elementTag: element.tagName,
+            elementClasses: element.className || 'no-classes',
+            buttonText: element.textContent.trim() || 'no-text'
+        };
+
+        console.log("Element clicked: ", element);
+        sendEvent(eventName, metadata);
+    });
+}
+
 
     // Initialize tracking
     function initializeAnalytics() {

@@ -22,8 +22,8 @@ const InstallSurfaceTag = () => {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(scriptCode).then(() => {
-      setCopyStatus('Script copied successfully!'); // Set copy feedback
-      setTimeout(() => setCopyStatus(''), 3000); // Clear feedback after 3 seconds
+      setCopyStatus('Script copied successfully!');
+      setTimeout(() => setCopyStatus(''), 3000); 
     });
   };
 
@@ -76,7 +76,7 @@ const InstallSurfaceTag = () => {
             </button>
           </div>
 
-          {/* Display copy status message */}
+        
           {copyStatus && (
             <p className="mt-2 text-blue-600 font-semibold">{copyStatus}</p>
           )}
