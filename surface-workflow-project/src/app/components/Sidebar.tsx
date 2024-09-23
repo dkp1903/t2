@@ -32,7 +32,7 @@ const Sidebar: React.FC = () => {
         </nav>
 
         <div className="absolute bottom-6 flex items-center">
-          <img src="/path/to/profile-pic.jpg" alt="Chris Hood" className="w-10 h-10 rounded-full mr-3" />
+          <img src="https://i.ibb.co/xDQHJbc/dushyant-image.png" alt="Avatar" className="w-10 h-10 rounded-full mr-3" />
           <div>
             <h3 className="text-gray-900">Chris Hood</h3>
             <p className="text-gray-600 text-sm">hello@example.com</p>
